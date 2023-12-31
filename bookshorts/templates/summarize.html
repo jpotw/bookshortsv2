@@ -1,213 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <head>
-        <meta charset="UTF-8">
-        <title>bookshorts</title>
+{% extends 'base.html' %}
+{% block content %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
             integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="shortcut icon" href="favicon.ico">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
       <style>
-    .body {
+         body {
+        background: #007BFF;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #0062E6, #33AEFF);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #0062E6, #33AEFF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        color: #fff;
         margin: 0;
         padding: 0;
-        font-size: 14px;
-        font-family: 'Poppins', sans-serif;
-    }
-    .container {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
+        font-family: 'Poppins', sans-serif;
     }
-    
-    
-    .chat-container {
-                max-width: 500px;
-                margin: 0 auto;
-                padding: 20px;
-            }
-    
-    .chat-box {
-        max-width: 500px;
-        background-color: #fff;
-        padding: 10px;
-        margin: 0 auto;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        overflow-y: scroll;
-        height: 300px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        font-size: 16px;
-    }
-    
-    .chat-message {
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-    
-    .popup {
-        animation: popup 0.3s ease-in-out;
-    }
-    
-    @keyframes popup {
-        0% {
-            opacity: 0;
-            transform: scale(0.5);
-        }
-        100% {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-    
-    .chat-message.user {
-        background-color: #e0f2fe;
-        align-self: flex-end;
-    }
-    
-    .chat-message.assistant {
-        background-color: #f5f5f5;
-        align-self: flex-start;
-    }
-    
-    .assistant-welcome {
-        background-color: #f5f5f5;
-        border-radius: 10px;
-        padding: 10px;
-        margin: 10px;
-        align-self: flex-start;
-    }
-    
-    .chat-message p {
-        margin: 0;
-        padding: 0;
-    }
-    
-    .chat-input {
-        display: flex;
-        margin-top: 10px;
-        background-color: #fff;
-        border-top: 1px solid #ccc;
-    }
-    
-    .chat-input input {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-    }
-    
-    .chat-input button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    
-    .chat-input button:hover {
-        background-color: #0056b3;
-    }
-    
-    .assistant {
-        color: blue;
-    }
-    
-    .intro-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .intro-container img {
-        width: 50%;
-        min-width: 300px;
-    }
-    
-    
-    
-    .hero {
-        background-image: url("https://source.unsplash.com/random");
-        background-size: cover;
-        height: 500px;
-    }
-    
-    .title {
-        color: white;
-        font-size: 40px;
-        font-weight: bold;
-    }
-    
-    .subtitle {
-        color: white;
-        font-size: 20px;
-    }
-    
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        width: 100%;
-    }
-    
-    .button-container button {
-        flex: 1;
-        margin-right: 10px;
-        padding: 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 18px;
-    }
-    
-    
-    .button-container button:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-    }
-    
-    .input-section {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-    }
-    
-    .input-section label {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: #007bff;
-    }
-    
-    .input-section input {
-        padding: 12px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        transition: border-color 0.3s ease;
-    }
-    
-    .input-section input:focus {
-        outline: none;
-        border-color: #007bff;
-    }
-    
+
         </style>
 </head>
 <body>
-    <div id="chat" class="chat-container" style="display: none;">
+    <div id="chat" class="chat-container">
         <div class="chat-box">
             <div class="chat-message assistant-welcome">
                 <p class="assistant">요약을 원하실 경우, '요약하기'를 눌러주세요</p>
@@ -215,11 +31,56 @@
         </div>
 
         <div class="chat-input">
-            <input type="text" placeholder="Type your message here...">
+            <input type="text" placeholder="요약하기">
             <button id="btn">보내기</button>
         </div>
     </div>
 </div>
+<script>
+    const myBookInfo = "{{ author }}가 쓴 {{ title }}";
+    const chatBox = document.querySelector('.chat-box');
+    let userMessages = [];
+    let assistantMessages = [];
+    const sendMessage = async (url) => {
+    const chatInput = document.querySelector('.chat-input input');
+    const chatMessage = document.createElement('div');
+    chatMessage.classList.add('chat-message', 'user', 'popup');
+    chatMessage.innerHTML = `<p>${chatInput.value}</p>`;
+    chatBox.appendChild(chatMessage);
 
-</body>
-</html>
+    //userMessage 메세지 추가
+    userMessages.push(chatInput.value);
+
+    chatInput.value = '';
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            myBookInfo: myBookInfo,
+            userMessages: userMessages,
+            assistantMessages: assistantMessages,
+        })
+    });
+
+    const data = await response.json();
+
+    //assistantMessage 메세지 추가
+    assistantMessages.push(data.assistant);
+
+    const booksMessage = document.createElement('div');
+    booksMessage.classList.add('chat-message', 'assistant', 'popup');
+    booksMessage.innerHTML = `<p class='assistant'>${data.assistant}</p>`;
+    chatBox.appendChild(booksMessage);
+    console.log("sendMessage function called"); 
+    
+
+document.getElementById('btn').addEventListener('click', () => {
+    sendMessage('https://i8275yp2i0.execute-api.ap-northeast-2.amazonaws.com/proood/summary');
+});
+    }
+          
+        </script>
+{% endblock %}

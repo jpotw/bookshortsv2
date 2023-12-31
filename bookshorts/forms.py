@@ -1,5 +1,4 @@
-from flask import Flask, FlaskForm, StringField
-from flask_wtf import FlaskFormfrom 
+from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, PasswordField
 from wtforms.validators import DataRequired
 
