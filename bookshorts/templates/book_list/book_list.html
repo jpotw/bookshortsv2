@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}도서 목록{% endblock %}
+
+{% block content %}
+{% if book_list %}
+    <ul>
+        {% for book in book_list %}
+            <li><a href="/summarized/{{ book.id }}/">{{ book.title }} - {{ book.author }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>등록된 도서가 없습니다.</p>
+{% endif %}
+{% endblock %}

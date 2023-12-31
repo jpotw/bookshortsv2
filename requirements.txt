@@ -1,0 +1,4 @@
+Flask-Migrate
+flask
+sqlalchemy
+Flask-WTF
