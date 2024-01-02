@@ -1,15 +1,12 @@
-from flask import Blueprint, url_for, render_template, flash, request, session
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Blueprint, url_for, render_template, request, session
+from werkzeug.security import check_password_hash
 from werkzeug.utils import redirect
-from bookshorts import db
 from ..models import Fcuser
-from ..forms import UserLoginForm
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
 @bp.route('/', methods=['GET', 'POST'])
 def login():
-    form=UserLoginForm()
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
@@ -27,7 +24,7 @@ def login():
                 return render_template('login.html', message=message)
             elif check_password_hash(fcuser.password, password):
                 session['userid'] = userid
-                return redirect(url_for('main.bookinfo'))
+                return redirect(url_for('/.bookinfo'))
             else:
                 message = "아이디와 비밀번호를 확인해주세요"
                 return render_template('login.html', message=message)

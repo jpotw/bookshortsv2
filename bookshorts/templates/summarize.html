@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %} {{ book_info }} 요약 {% endblock %}
 {% block content %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
             integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
@@ -19,68 +20,16 @@
         height: 100vh;
         font-family: 'Poppins', sans-serif;
     }
-
         </style>
-</head>
-<body>
     <div id="chat" class="chat-container">
         <div class="chat-box">
-            <div class="chat-message assistant-welcome">
-                <p class="assistant">요약을 원하실 경우, '요약하기'를 눌러주세요</p>
-            </div>
-        </div>
-
-        <div class="chat-input">
-            <input type="text" placeholder="요약하기">
-            <button id="btn">보내기</button>
+            <form method="post" action="/summarize">            
+                <div class="chat-message assistant-welcome">
+                <p class="assistant">{{ book_info }}에서의 핵심 내용을 요약하겠습니다:
+                    {{ content }}
+                </p>
+                </div>
         </div>
     </div>
-</div>
-<script>
-    const myBookInfo = "{{ author }}가 쓴 {{ title }}";
-    const chatBox = document.querySelector('.chat-box');
-    let userMessages = [];
-    let assistantMessages = [];
-    const sendMessage = async (url) => {
-    const chatInput = document.querySelector('.chat-input input');
-    const chatMessage = document.createElement('div');
-    chatMessage.classList.add('chat-message', 'user', 'popup');
-    chatMessage.innerHTML = `<p>${chatInput.value}</p>`;
-    chatBox.appendChild(chatMessage);
-
-    //userMessage 메세지 추가
-    userMessages.push(chatInput.value);
-
-    chatInput.value = '';
-
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            myBookInfo: myBookInfo,
-            userMessages: userMessages,
-            assistantMessages: assistantMessages,
-        })
-    });
-
-    const data = await response.json();
-
-    //assistantMessage 메세지 추가
-    assistantMessages.push(data.assistant);
-
-    const booksMessage = document.createElement('div');
-    booksMessage.classList.add('chat-message', 'assistant', 'popup');
-    booksMessage.innerHTML = `<p class='assistant'>${data.assistant}</p>`;
-    chatBox.appendChild(booksMessage);
-    console.log("sendMessage function called"); 
-    
-
-document.getElementById('btn').addEventListener('click', () => {
-    sendMessage('https://i8275yp2i0.execute-api.ap-northeast-2.amazonaws.com/proood/summary');
-});
-    }
-          
-        </script>
+        
 {% endblock %}

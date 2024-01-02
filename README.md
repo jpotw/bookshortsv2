@@ -30,8 +30,3 @@
 
 ![image](https://github.com/jpotw/bookshortsv2/assets/105954991/f5022834-60d5-4369-a0e3-5ce838e45730)
 
-
-# 할 것들:
-
-1. 물어본 질문들 다시 확인할 수 있는 페이지 (근데 이거 개인것만 확인할 수 있게 하려면 .. 빡셀듯)
-2. ChatGPT 답변 받고(이전에 썼던 javascript 재활용??) DB에 추가하기

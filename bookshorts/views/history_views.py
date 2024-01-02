@@ -15,4 +15,4 @@ def history():
 @bp.route('/summarized/<int:id>')
 def title(id):
     book=BookInfo.query.get(id)
-    return render_template('book_list/summarized', book=book)
+    return render_template('book_list/summarized.html', book=book)

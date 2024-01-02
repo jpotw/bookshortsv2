@@ -149,6 +149,9 @@
     background-color: #007bff;
     color: #fff;
     font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -233,4 +236,46 @@
     margin-top: 20px;
     color: #007bff;
     text-decoration: none;
+}
+
+
+.login-link {
+    display: block;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 80%;
+    max-width: 800px;
+    margin: auto;
+}
+
+ul li {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+ul li:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    display: block;
+}
+
+ul li a:hover {
+    color: #007bff;
 }
