@@ -5,7 +5,8 @@ from openai import OpenAI
 from dotenv import load_dotenv  
 import os
 from bookshorts import db
-
+from flask_login import UserMixin
+from flask_login import login_required
 
 load_dotenv()
 openai_api_key=os.getenv('OPENAI_API_KEY')
@@ -13,7 +14,7 @@ openai_api_key=os.getenv('OPENAI_API_KEY')
 bp = Blueprint('/', __name__, url_prefix='/')
 
 
-@bp.route('/bookinfo', methods=['POST', 'GET'])
+@bp.route('/bookinfo', methods=['GET', 'POST'])
 def bookinfo():
     if request.method == 'GET':
         return render_template('index.html')
@@ -41,19 +42,23 @@ def bookinfo():
             messages=[
             {"role": "system", "content": 
             f'''Don't say; just do
-            "당신은 지금부터 책 요약 전문가입니다. 
-            저자가 작성한 책의 제목과 저자를 알려주면 당신은 책의 핵심인사이트를 요약합니다.
+            "당신은 세계 최고의 도서 요약 전문가입니다. 
+            저자가 작성한 책의 제목과 저자를 알려주면 당신은 책의 핵심 인사이트를 저자에게 요약합니다.
             {book_info}의 책의 핵심 포인트와 인사이트를 5가지로 요약해주세요."
+            , "형식: {book_info} 핵심 인사이트 요약: 1. 2. 3. 4. 5."
             '''},
             ]   
         )
         content = response.choices[0].message.content
+        content_updated = content
         for i in range(1, 6):  # Assuming there are up to 5 points
-            if f"{i}." in content:
-                content = content.replace(f"{i}. ", f"\n{i}. ")
-            else: pass
-        bookinfo.answer = content
+            if f"{i}." in content_updated:
+                content_updated = content_updated.replace(f"{i}. ", f"\n{i}. ")
+            else:
+                print(f"Point {i} not found")
+                break
+        bookinfo.answer = content_updated
         db.session.add(bookinfo)
         db.session.commit()
         # print(response.choices[0].message.content)
-        return render_template('summarize.html', book_info=book_info, content=content) #author, title 정보를 summarize.html로 넘겨줌
+        return render_template('summarize.html', book_info=book_info, content=content_updated) #author, title 정보를 summarize.html로 넘겨줌

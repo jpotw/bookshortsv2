@@ -6,13 +6,13 @@ from ..models import BookInfo
 bp = Blueprint('history', __name__, url_prefix='/history')
 
 
-@bp.route('/')
+@bp.route('/', methods=['GET'])
 def history():
     book_list = BookInfo.query.order_by(BookInfo.create_date.desc())
     return render_template('book_list/book_list.html', book_list=book_list)
 
 
-@bp.route('/summarized/<int:id>')
+@bp.route('/summarized/<int:id>', methods=['GET'])
 def title(id):
     book=BookInfo.query.get(id)
     return render_template('book_list/summarized.html', book=book)

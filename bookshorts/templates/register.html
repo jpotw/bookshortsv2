@@ -26,4 +26,9 @@
         </form>
     </div>
 </div>
+<script>
+    {% if message %}
+        alert("{{ message }}");
+    {% endif %}
+</script>
 {% endblock %}

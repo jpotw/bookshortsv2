@@ -279,3 +279,21 @@ ul li a {
 ul li a:hover {
     color: #007bff;
 }
+
+
+.nav-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px; /* Smaller margin */
+    background-color: #808080;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #606060;
+}
+
+

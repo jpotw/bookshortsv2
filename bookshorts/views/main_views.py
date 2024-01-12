@@ -25,10 +25,10 @@ def register():
         print(password) # 들어오나 확인해볼 수 있다. 
 
         if not (username and userid and password and re_password) :
-            message = "모두 입력해주세요"
+            message = "빈칸을 모두 입력해주세요"
             return render_template('register.html', message=message)
         elif password != re_password:
-            message = "비밀번호를 확인해주세요"
+            message = "비밀번호가 일치하지 않습니다."
             return render_template('register.html', message=message)
         else: #모두 입력이 정상적으로 되었다면 밑에명령실행(DB에 입력됨) (python 객체 -> Database)
             fcuser = Fcuser()
