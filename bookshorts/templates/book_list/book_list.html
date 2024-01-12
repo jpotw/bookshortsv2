@@ -3,10 +3,15 @@
 {% block title %}도서 목록{% endblock %}
 
 {% block content %}
+<nav>
+    <a class="nav-link" href="{{ url_for('history.history') }}">히스토리 보기</a>
+    <a class="nav-link" href="{{ url_for('/.bookinfo') }}">책 요약하기</a>
+</nav>
 {% if book_list %}
-    <ul>
+    <h1>도서 목록</h1>
+    <ul class="book-list">
         {% for book in book_list %}
-            <li><a href="/summarized/{{ book.id }}/">{{ book.title }} - {{ book.author }}</a></li>
+            <li class="book-item"><a href="/history/summarized/{{ book.id }}">{{ book.title }} - {{ book.author }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
