@@ -1,12 +1,14 @@
+#### 책 입력 뷰 --> 책 요약 화면 html ####
+
+
 from flask import Blueprint, render_template, request
-from ..models import BookInfo
+from ..models import BookInfo, Fcuser
 from datetime import datetime
 from openai import OpenAI
 from dotenv import load_dotenv  
 import os
 from bookshorts import db
-from flask_login import UserMixin
-from flask_login import login_required
+import re
 
 load_dotenv()
 openai_api_key=os.getenv('OPENAI_API_KEY')
@@ -14,7 +16,9 @@ openai_api_key=os.getenv('OPENAI_API_KEY')
 bp = Blueprint('/', __name__, url_prefix='/')
 
 
-@bp.route('/bookinfo', methods=['GET', 'POST'])
+#요약하기 버튼을 누르면 동작하는 것
+
+@bp.route('/answer', methods=['GET', 'POST'])
 def bookinfo():
     if request.method == 'GET':
         return render_template('index.html')
@@ -50,15 +54,19 @@ def bookinfo():
             ]   
         )
         content = response.choices[0].message.content
-        content_updated = content
-        for i in range(1, 6):  # Assuming there are up to 5 points
-            if f"{i}." in content_updated:
-                content_updated = content_updated.replace(f"{i}. ", f"\n{i}. ")
-            else:
-                print(f"Point {i} not found")
-                break
-        bookinfo.answer = content_updated
+        # 텍스트를 ':' 기준으로 분리합니다.
+        sections = content.split(':')
+        # 첫 번째 요소를 제목으로 사용합니다.
+        title = sections[0]
+        # 나머지 요소들을 순회하며 형식에 맞게 포맷팅합니다.
+        summary = '\n'.join(f'{i+1}. {section.strip()}' for i, section in enumerate(sections[1:]))
+        # 최종 결과를 출력합니다.
+        formatted_text = f'{title}:\n{summary}'
+        print(formatted_text)
+        bookinfo.answer = formatted_text
         db.session.add(bookinfo)
         db.session.commit()
         # print(response.choices[0].message.content)
-        return render_template('summarize.html', book_info=book_info, content=content_updated) #author, title 정보를 summarize.html로 넘겨줌
+        return render_template('summarize.html', 
+                               book_info=book_info, 
+                               content=formatted_text) #author, title 정보를 summarize.html로 넘겨줌

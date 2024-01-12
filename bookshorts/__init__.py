@@ -1,15 +1,10 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-# from models import db
-# from models import Fcuser
 import config
-from flask_login import LoginManager
-# from .models import Fcuser
 
 db = SQLAlchemy()
 migrate = Migrate()
-# login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -17,17 +12,13 @@ def create_app():
     app.debug = True
 
 
-    #login_manager
-    # login_manager.init_app(app)
-
     #ORM
     db.init_app(app)
     migrate.init_app(app,db) #migrate은 뭐하는거
-    from . import models
-    from .views import main_views, history_views, auth_views, summarize_views
+    from .views import main_views, history_views, summarize_views, login_views
     app.register_blueprint(main_views.bp) #main_views 파일에 bp(blueprint로 만든 객체) 불러오기
     app.register_blueprint(history_views.bp)
-    app.register_blueprint(auth_views.bp)
+    app.register_blueprint(login_views.bp)
     app.register_blueprint(summarize_views.bp)  
     return app
 

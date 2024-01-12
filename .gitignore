@@ -120,13 +120,17 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+bookshorts/views/.env
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+bookshorts.db
+config.py
+__pycache__
+migrations/
 
 # Spyder project settings
 .spyderproject
