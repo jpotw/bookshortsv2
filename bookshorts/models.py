@@ -1,4 +1,5 @@
-from bookshorts import db #__init__.py 에 있는 db를 갖고온다
+from bookshorts import db
+
 
 #책 정보 저장
 class BookInfo(db.Model): #db.Model = 모든 모델의 기본 class
@@ -6,13 +7,8 @@ class BookInfo(db.Model): #db.Model = 모든 모델의 기본 class
     title = db.Column(db.String(32), nullable=False) #빈값을 허용하고 싶지 않다면 nullable = False로 설정함.
     author = db.Column(db.String(32), nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False) #생성 시간
-    answer = db.Column(db.String(400), nullable=True)
+    answer = db.Column(db.String(400), nullable=True) #나중에 저장
 
-# GPT 답변 저장
-# class Answer(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     bookinfo_id = db.Column(db.Integer, db.ForeignKey('bookinfo.id', ondelete))
-#     answer = db.Column(db.String(400), nullable=False)
 
 #회원가입
 class Fcuser(db.Model): 
