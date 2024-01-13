@@ -2,13 +2,14 @@
 
 
 from flask import Blueprint, render_template, request
-from ..models import BookInfo, Fcuser
+from ..models import BookInfo
 from datetime import datetime
 from openai import OpenAI
 from dotenv import load_dotenv  
 import os
 from bookshorts import db
 import re
+import json
 
 load_dotenv()
 openai_api_key=os.getenv('OPENAI_API_KEY')
@@ -47,26 +48,18 @@ def bookinfo():
             {"role": "system", "content": 
             f'''Don't say; just do
             "당신은 세계 최고의 도서 요약 전문가입니다. 
-            저자가 작성한 책의 제목과 저자를 알려주면 당신은 책의 핵심 인사이트를 저자에게 요약합니다.
-            {book_info}의 책의 핵심 포인트와 인사이트를 5가지로 요약해주세요."
+            저자가 작성한 책의 제목과 저자를 알려주면 당신은 책의 핵심 인사이트를 저자에게 요약합니다. 
+            {book_info}의 책의 핵심 포인트와 인사이트를 5가지로 요약해주세요. 무조건 한국어로 대답하세요."
             , "형식: {book_info} 핵심 인사이트 요약: 1. 2. 3. 4. 5."
             '''},
             ]   
         )
         content = response.choices[0].message.content
-        # 텍스트를 ':' 기준으로 분리합니다.
-        sections = content.split(':')
-        # 첫 번째 요소를 제목으로 사용합니다.
-        title = sections[0]
-        # 나머지 요소들을 순회하며 형식에 맞게 포맷팅합니다.
-        summary = '\n'.join(f'{i+1}. {section.strip()}' for i, section in enumerate(sections[1:]))
-        # 최종 결과를 출력합니다.
-        formatted_text = f'{title}:\n{summary}'
-        print(formatted_text)
-        bookinfo.answer = formatted_text
+        insights = re.split(r'\d+\.', content) # 숫자와 점을 기준으로 분리합니다.
+        insights = [insight.strip() for insight in insights if insight.strip() != ''] # 빈 문자열을 제거하고 양쪽 공백을 제거합니다.
+        bookinfo.answer = json.dumps(insights) #리스트를 JSON 문자열로 변환하여 저장해야 합니다. 그리고 데이터를 가져올 때는 json.loads()를 사용해 다시 리스트로 변환할 수 있습니다.
         db.session.add(bookinfo)
         db.session.commit()
-        # print(response.choices[0].message.content)
         return render_template('summarize.html', 
                                book_info=book_info, 
-                               content=formatted_text) #author, title 정보를 summarize.html로 넘겨줌
+                               insights=insights) #author, title 정보를 summarize.html로 넘겨줌

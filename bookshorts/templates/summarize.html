@@ -30,7 +30,9 @@
             <form method="post" action="/summarize">            
                 <div class="chat-message assistant-welcome">
                 <p class="assistant">
-                    {{ content }}
+                        {% for insight in insights %}
+                            <li>{{ insight }}</li>
+                        {% endfor %}
                 </p>
                 </div>
         </div>
