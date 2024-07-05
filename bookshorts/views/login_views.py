@@ -31,14 +31,18 @@ def register():
             message = "비밀번호가 일치하지 않습니다."
             return render_template('register.html', message=message)
         else: #모두 입력이 정상적으로 되었다면 밑에명령실행(DB에 입력됨) (python 객체 -> Database)
-            fcuser = Fcuser()
-            fcuser.username = username
-            fcuser.password = generate_password_hash(password)  #pw을 hash한 상태로 암호화해야 됨       
-            fcuser.userid = userid    
-            db.session.add(fcuser)
-            db.session.commit()
-            message = "회원가입 완료"
-            return render_template('login.html', message=message)
+            try:
+                fcuser = Fcuser()
+                fcuser.username = username
+                fcuser.password = generate_password_hash(password, method='pbkdf2:sha256')  # Use pbkdf2:sha256
+                fcuser.userid = userid
+                db.session.add(fcuser)
+                db.session.commit()
+                message = "회원가입 완료"
+                return render_template('login.html', message=message)
+            except Exception as e:
+                db.session.rollback()  # Rollback the session in case of error
+                return f"An error occurred: {e}"
         
 
 #로그인(login/)

@@ -10,26 +10,23 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
 
-    #ORM
+    # Initialize ORM
     db.init_app(app)
-    migrate.init_app(app,db) #migrate은 뭐하는거
-    from bookshorts import models
+    migrate.init_app(app, db)  # Migrate handles database migrations
+
+    from bookshorts import models  # Ensure your models are imported so they are registered with SQLAlchemy
     from .views import main_views, history_views, login_views, summarize_views
+
     app.register_blueprint(login_views.bp)
-    app.register_blueprint(main_views.bp) #main_views 파일에 bp(blueprint로 만든 객체) 불러오기
+    app.register_blueprint(main_views.bp)
     app.register_blueprint(history_views.bp)
     app.register_blueprint(summarize_views.bp)
+
+    with app.app_context():
+        db.create_all()  # Create tables for all models (useful for initial setup, but usually handled by migrations)
+
     return app
 
-#     @app.route('/')
-#     def index():
-#         return render_template('/index.html')
-
-	
-# with app.app_context():
-# 	db.init_app(app) #초기화 후 db.app에 app으로 명시적으로 넣어줌
-# 	db.app = app    
-# 	db.create_all()
-
-
-# app.run(host='127.0.0.1', port=5000, debug=True) 
+if __name__ == "__main__":
+    app = create_app()
+    app.run(host='127.0.0.1', port=5000, debug=True)
