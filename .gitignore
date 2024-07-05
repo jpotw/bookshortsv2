@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# idea related
+.iws
+workspace.xml
+tasks.xml
+
 # Distribution / packaging
 .Python
 build/

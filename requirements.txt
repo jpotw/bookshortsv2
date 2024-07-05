@@ -2,3 +2,5 @@ Flask-Migrate
 Flask
 sqlalchemy
 flask-login
+langchain==0.0.353
+python-dotenv
